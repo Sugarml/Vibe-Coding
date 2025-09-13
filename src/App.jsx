@@ -95,4 +95,43 @@ return (
 <h2 className="text-xl font-semibold mb-2">關於本站</h2>
 <p className="text-sm text-gray-600">這是一個範例部落格，風格採用柔和顏色與大圓角，適合想要打造閱讀友善介面的作者。</p>
 </div>
+);
 }
+function App() {
+  return (
+    <Router>
+      <Container>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          {/* 單篇文章頁面 */}
+          <Route
+            path="/post/:id"
+            element={<Post />}
+          />
+        </Routes>
+      </Container>
+    </Router>
+  );
+}
+
+function Post() {
+  const { id } = useParams();
+  const post = posts.find((p) => p.id === id);
+
+  if (!post) {
+    return <p>找不到文章</p>;
+  }
+
+  return (
+    <div className="bg-white p-6 rounded-2xl shadow-sm">
+      <h2 className="text-2xl font-semibold mb-2">{post.title}</h2>
+      <p className="text-sm text-gray-400 mb-4">{post.date}</p>
+      <p className="text-base text-gray-700 leading-relaxed">{post.content}</p>
+    </div>
+  );
+}
+
+// 🔥 這一行是關鍵！
+export default App;
